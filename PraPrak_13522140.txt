@@ -1,0 +1,287 @@
+/* 3. Query */
+% a. Suami dari Margot (X)
+	| ?- pria(X), menikah(X,margot), menikah(margot,X).
+	X = henri ? 
+	yes
+
+
+% b. Kakek buyut dan nenek buyut dari Daniel (X,Y)
+	| ?- keturunan(daniel,X), keturunan(daniel,Y), menikah(X,Y), keturunan(Z,X), keturunan(Z,Y), nenek(Z,daniel), anak(Z,X), anak(Z,Y).
+
+	X = athif
+	Y = joli
+	Z = margot ? 
+
+	yes
+	
+	% atau
+	| ?- keturunan(daniel,X), keturunan(daniel,Y), menikah(X,Y), keturunan(Z,X), keturunan(Z,Y), keturunan(daniel,Z), anak(Z,X), anak(Z,Y), \+anak(daniel,Z).
+
+	X = athif
+	Y = joli
+	Z = margot ? 
+
+	yes
+
+
+% c. Paman dari orang tua Rupert (X)
+	| ?- pria(X), anak(rupert,Y), anak(Y,Z), saudara(X,Z).
+
+	X = michael
+	Y = jena
+	Z = margot ? 
+
+	yes
+
+	
+% d. Orang yang memiliki lebih dari satu istri (X)
+	| ?- pria(X), menikah(X,A), menikah(X,B), A\==B.
+
+	A = jena
+	B = jeni
+	X = fio ? 
+
+	yes
+
+
+% e. Saudara tiri tertua dari Emma (X)
+	| ?- saudaratiri(X,emma), \+kakak(_,X).
+	X = daniel ? 
+	yes
+
+
+% f. Orang tua yang memiliki tepat satu anak (X,Y)
+	| ?- menikah(X,Y), anak(A,X), anak(A,Y), anakbungsu(A), \+kakak(_,A).
+
+	A = hanif
+	X = dillon
+	Y = elysia ? 
+
+	yes
+
+
+% g. Pria yang memiliki mertua berusia lebih dari 50 tahun (X)
+	| ?- pria(X), mertua(Z,X), usia(Z,U), U>50.
+	U = 60
+	X = henri
+	Z = athif ? ;
+
+	U = 58
+	X = henri
+	Z = joli ? 
+
+	yes
+
+
+% h. Orang yatim piatu dengan usia termuda (X)
+	| ?- yatimpiatu(X), usia(X,A), \+ (yatimpiatu(Y), usia(Y,B), B<A, Y\==X).
+
+	A = 30
+	X = fio ? 
+
+	yes
+
+
+% i. Orang diatas 25 tahun yang statusnya menikah dengan orang yang memiliki saudara lebih dari satu orang (X)
+	| ?- menikah(X,Y), usia(X,Ux), saudara(Y,A), saudara(Y,B), A\==B, Y\==A, Y\==B, Ux>25.
+
+	A = robert
+	B = bagas
+	Ux = 30
+	X = fio
+	Y = jena ? 
+
+	yes
+
+
+% j. Seluruh keturunan Athif yang memiliki tepat 2 keponakan (X)
+	| ?- keturunan(X,athif), keponakan(A,X), keponakan(B,X), A\==B, \+ (keponakan(C,X), C\=A, C\=B).
+
+	A = daniel
+	B = rupert
+	X = robert ? ;
+
+	A = daniel
+	B = rupert
+	X = robert ? ;
+
+	A = daniel
+	B = rupert
+	X = robert ? ;
+
+	A = daniel
+	B = rupert
+	X = robert ? ;
+
+	A = daniel
+	B = rupert
+	X = robert ? ;
+
+	A = daniel
+	B = rupert
+	X = robert ? ;
+
+	A = daniel
+	B = rupert
+	X = robert ? ;
+
+	A = daniel
+	B = rupert
+	X = robert ? ;
+
+	A = daniel
+	B = rupert
+	X = bagas ? 
+
+	yes
+
+
+
+/* BAGIAN II: Rekursivitas */
+/* 1. Exponent */
+	| ?- exponent(2, 3, X).
+	X = 8 ? 
+	yes
+
+
+/* 2. Population */
+	| ?- population(3, 2, 5, 0, X).
+	X = 105
+	yes
+
+	| ?- population(189, 2, 1, 188, X).
+	X = 567
+	yes
+
+
+/* 3. Perrin */
+	| ?- perrin(0, X).
+	X = 3
+	yes
+
+	| ?- perrin(13, X).
+	X = 39
+	yes
+
+
+/* 4. HCF */
+	| ?- hcf(48, 18, X).
+	X = 6
+	yes
+
+
+/* 5. Make Pattern */
+	| ?- makePattern(5).
+	00000
+	01110
+	01210
+	01110
+	00000
+
+	yes
+	| ?- makePattern(6).
+	000000
+	011110
+	012210
+	012210
+	011110
+	000000
+
+	yes
+
+
+
+/* BAGIAN III: List */
+/* 1. List Static */
+% min: mencari elemen dengan nilai minimum
+	| ?- min([5, -8, 4, 2, -1, 12], Min).
+	Min = -8?
+	yes 
+
+% max: mencari elemen dengan nilai maksimum
+	| ?- max([5, -8, 4, 2, -1, 12], Max).
+	Max = 12?
+	yes 
+
+% range: mencari selisih antara elemen terbesar dan elemen terkecil
+	| ?- range([5, -8, 4, 2, -1, 12], Range).
+	Range = 20?
+	yes 
+
+% count: mencari jumlah elemen pada list
+	| ?- count([5, -8, 4, 2, -1, 12], Count).
+	Count = 6?
+	yes 
+
+% sum: mencari jumlah total elemen pada list
+	| ?- sum([5, -8, 4, 2, -1, 12], Sum).
+	Sum = 14?
+	yes
+
+
+
+/* 2. List Manipulation */
+% a. Get Index 
+	| ?- getIndex([1,2,5,-2,1,-4,-7], -2, Index).
+	Index = 4?
+	yes
+
+	| ?- getIndex([1,2,5,-2,1,-2,-7], -2, Index).
+	Index = 4?
+	yes
+
+	| ?- getIndex([1,2,5,-2,0,-2,-7], -11, Index).
+	no
+
+
+% b. Get Element
+	| ?- getElement([1,2,5,-2,1,-4,-7], 3, Element).
+	Element = 5?
+	yes
+
+	| ?- getIndex([1,2,5,-2,1,-2,-7], -1, Element).
+	no
+
+	| ?- getIndex([1,2,5,-2,0,-2,-7], 10, Element).
+	no
+
+
+% c. Swap
+	| ?- swap([5,6,7,8], 1, 1, Result).
+	Result = [5,6,7,8]
+	yes
+
+	| ?- swap([5,6,7,8], 4, 2, Result).
+	Result = [5,8,7,6]
+	yes
+
+	| ?- swap([5,6,7,8,9], 4, 6, Result).
+	no
+
+
+% d. Slice
+	| ?- slice([5, 4, 3, 2, 1], 2, 4, Result).
+	Result = [4,3]?
+	yes 
+
+	| ?- slice([5, 4, 3, 2, 1], 6, 7, Result).
+	Result = []?
+	yes 
+
+	| ?- slice([5, 4, 3, 2, 1], 1, 7, Result).
+	Result = [5, 4, 3, 2, 1]?
+	yes 
+
+	| ?- slice([5, 4, 3, 2, 1], 5, 3, Result).
+	Result = []?
+	yes 
+
+
+% e. Sort List
+	| ?- sort([4, 1, 5, 3, 2], Result).
+	Result = [1,2,3,4,5]
+	yes
+
+	| ?- sort([-999], Result).
+	Result = [-999]
+	yes
